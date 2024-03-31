@@ -21,5 +21,5 @@ interface projectApi {
     @POST("api/Project/{projectId}/addparticipant/{userId}/{roleId}")
     suspend fun addParticipant (@Path("projectId") projectId: Int, @Path("userId") userId : Int, @Path("roleId") roleId : Int) : Response<ProjectDto>
     @DELETE("api/Project/{projectId}/removeParticipant/{userId}")
-    suspend fun removeParticipant(@Path("projectId") projectId: Int, @Path("userId") userId : Int)
+    suspend fun removeParticipant(@Path("projectId") projectId: Int, @Path("userId") userId : Int) : Response<ProjectDto>
 }
