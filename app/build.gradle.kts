@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.taskroom"
-        minSdk = 21
+        minSdk = 26
         //noinspection EditedTargetSdkVersion
         targetSdk = 34
         versionCode = 1
