@@ -1,4 +1,8 @@
 package com.example.taskroom
 
-class TaskRoomComoseApp {
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class TaskRoomComoseApp: Application() {
 }

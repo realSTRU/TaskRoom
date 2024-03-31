@@ -5,15 +5,18 @@ import android.content.Context
 import android.widget.DatePicker
 import android.widget.Space
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -58,8 +61,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.taskroom.R
 import java.util.Calendar
 import java.util.Date
@@ -70,7 +75,7 @@ var modalNewProjectOpen by mutableStateOf(false)
 var modalNewProfileOpen by mutableStateOf(false)
 
 @Composable
-fun Homescreen(context:Context){
+fun Homescreen(context:Context,nav: NavController){
     
     var projectSlected by remember { mutableStateOf(true) }
     var colorProjectText by remember { mutableStateOf(Color(255,180,1)) }
@@ -197,6 +202,7 @@ fun TaskCard(project:String, task:String, state:String){
             }
         }
     }
+
 }
 
 @Composable
@@ -318,6 +324,7 @@ fun NewProjectModal(context: Context){
                 }
             }
         }
+        Divider(color = Color(255, 180, 1), thickness = 10.dp)
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -398,5 +405,7 @@ fun ProfileViewModal() {
                 Divider()
             }
         }
+        Divider(color = Color(255, 180, 1), thickness = 10.dp)
     }
 }
+
