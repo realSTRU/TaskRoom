@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class RoleDto(
     @Json(name = "id")
-    var id : Int,
+    var id : Int = 0,
     @Json(name = "description")
-    var description : String
+    var description : String = ""
 )

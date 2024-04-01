@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CredentialDto (
     @Json(name="username")
-    var username : String,
+    var username : String = "",
     @Json(name = "password")
-    var password : String
+    var password : String = ""
 )

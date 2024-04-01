@@ -7,18 +7,23 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class UserDto(
     @Json(name = "id")
-    var id : Int,
+    var id : Int =0,
     @Json(name = "username")
-    var username : String,
+    var username : String = "",
     @Json(name = "password")
-    var password : String,
+    var password : String = "",
     @Json(name = "email")
-    var name : String,
+    var email : String = "",
+    @Json(name = "name")
+    var name : String = "",
     @Json(name = "surname")
-    var surname : String,
+    var surname : String = "",
     @Json(name = "projects")
-    var projects : List<ProjectDto>,
+    var projects : List<ProjectDto> = listOf(),
     @Json(name = "tasks")
-    var tasks : List<TaskDto>
+    var tasks : List<TaskDto> = listOf()
 
-)
+) {
+}
+
+

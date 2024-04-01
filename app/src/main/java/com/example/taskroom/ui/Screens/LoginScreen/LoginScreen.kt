@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -47,12 +48,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.taskroom.R
+import com.example.taskroom.currentUser
+import com.example.taskroom.data.localStorage.SessionStorage
+import com.example.taskroom.ui.util.AppScreens
 
 
 var modalSigninOpen by mutableStateOf(false)
 
 @Composable
-fun LoginScreen(nav : NavController){
+fun LoginScreen(nav : NavController, loginViewModel: LoginViewModel, signinViewModel: SigninViewModel,storage: SessionStorage){
+
+    if (storage.getID.collectAsState(initial = 0).value !=0 ){
+        loginViewModel.Login(storage.getID.collectAsState(initial = 0).value!!)
+        nav.navigate(AppScreens.HomeScreen.route)
+    }
+
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     val background = painterResource(id = R.drawable.backgroundlogin)
@@ -72,13 +82,15 @@ fun LoginScreen(nav : NavController){
             ) {
                 Text(text = "USERNAME", color = Color(238,240,242), fontWeight = FontWeight.Light, fontSize = 20.sp)
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = loginViewModel.username,
+                    onValueChange =  {loginViewModel.onUsernameChange(it)},
+                    isError = loginViewModel.usernameError,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(255,180,1),
                         cursorColor =  Color(255,180,1),
                         unfocusedBorderColor = Color.White,
                         backgroundColor = Color(158,183,229,60),
+                        textColor = Color.White
                     ),
                     leadingIcon = {
                         Icon(imageVector = Icons.Default.Person, contentDescription ="" )
@@ -95,13 +107,15 @@ fun LoginScreen(nav : NavController){
             ) {
                 Text(text = "PASSWORD", color = Color(238,240,242), fontWeight = FontWeight.Light, fontSize = 20.sp)
                 TextField(
-                    value = "adadasdasdsa",
-                    onValueChange = {},
+                    value = loginViewModel.password,
+                    isError = loginViewModel.passwordError,
+                    onValueChange = {loginViewModel.onPasswordChange(it)},
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(255,180,1),
                         cursorColor =  Color(255,180,1),
                         unfocusedBorderColor = Color.White,
                         backgroundColor = Color(158,183,229,60),
+                        textColor = Color.White
                     ),
                     visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -120,7 +134,7 @@ fun LoginScreen(nav : NavController){
                 )
             }
 
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = { loginViewModel.Login(storage) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp)
@@ -147,14 +161,14 @@ fun LoginScreen(nav : NavController){
                 Text(text = "SIGN IN", fontSize = 20.sp)
             }
         if (modalSigninOpen){
-            SignInModal()
+            SignInModal(signinViewModel=signinViewModel,storage=storage)
         }
 
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignInModal() {
+fun SignInModal(signinViewModel: SigninViewModel,storage: SessionStorage) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
     androidx.compose.material3.AlertDialog(
         onDismissRequest = {
@@ -177,8 +191,9 @@ fun SignInModal() {
                 }
                 Spacer(modifier = Modifier.padding(top =10.dp))
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = signinViewModel.username,
+                    onValueChange = {signinViewModel.onUsernameChange(it)},
+                    isError = signinViewModel.usernameError,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(255,180,1),
                         cursorColor =  Color(255,180,1),
@@ -195,8 +210,9 @@ fun SignInModal() {
                 )
                 Spacer(modifier = Modifier.padding(top =10.dp))
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = signinViewModel.email,
+                    onValueChange = {signinViewModel.onEmailChange(it)},
+                    isError = signinViewModel.emailError,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(255,180,1),
                         cursorColor =  Color(255,180,1),
@@ -211,28 +227,12 @@ fun SignInModal() {
                         Icon(imageVector = Icons.Default.Email, contentDescription ="" )
                     }
                 )
+
                 Spacer(modifier = Modifier.padding(top =10.dp))
                 TextField(
-                    value = "",
-                    onValueChange = {},
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(255,180,1),
-                        cursorColor =  Color(255,180,1),
-                        unfocusedBorderColor = Color.White,
-                        backgroundColor = Color.Transparent,
-                        focusedLabelColor = Color.Black
-                    ),
-                    label = {
-                        Text(text = "Username")
-                    },
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Default.Person, contentDescription ="" )
-                    }
-                )
-                Spacer(modifier = Modifier.padding(top =10.dp))
-                TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = signinViewModel.name,
+                    onValueChange = {signinViewModel.onNameChange(it)},
+                    isError = signinViewModel.nameError,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(255,180,1),
                         cursorColor =  Color(255,180,1),
@@ -249,8 +249,9 @@ fun SignInModal() {
                 )
                 Spacer(modifier = Modifier.padding(top =10.dp))
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = signinViewModel.surname,
+                    onValueChange = {signinViewModel.onSurnameChange(it)},
+                    isError = signinViewModel.surnameError,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = Color(255,180,1),
                         cursorColor =  Color(255,180,1),
@@ -267,8 +268,9 @@ fun SignInModal() {
                 )
                 Spacer(modifier = Modifier.padding(top =10.dp))
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = signinViewModel.password,
+                    onValueChange = {signinViewModel.onPasswordChange(it)},
+                    isError = signinViewModel.passwordError,
                     label = {
                         Text(text = "Password")
                     },
@@ -296,8 +298,9 @@ fun SignInModal() {
                 )
                 Spacer(modifier = Modifier.padding(top =10.dp))
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = signinViewModel.reppasword,
+                    onValueChange = {signinViewModel.onReppasswordChange(it)},
+                    isError = signinViewModel.reppasswordError,
                     label = {
                         Text(text = "Repeat Password")
                     },
@@ -315,7 +318,7 @@ fun SignInModal() {
                 )
                 Spacer(modifier = Modifier.padding(top =10.dp))
                 Row (horizontalArrangement = Arrangement.Center){
-                    Button(onClick = { /*TODO*/ },
+                    Button(onClick = { signinViewModel.Register(storage = storage)},
                         modifier = Modifier
                             .fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(

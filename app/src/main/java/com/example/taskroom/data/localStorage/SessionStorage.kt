@@ -21,7 +21,7 @@ class SessionStorage(public val context: Context) {
     }
 
     val getID: Flow<Int?> = context.dataStoree.data.map { p ->
-        p[ID]
+        p[ID]?.toInt() ?: 0
     }
 
     suspend fun saveID(value: Int)
@@ -47,7 +47,7 @@ class SessionStorage(public val context: Context) {
         p[CLAVE]
     }
 
-    suspend fun saveClave(value : String)
+    suspend fun saveClave(value: String)
     {
         context.dataStoree.edit { preferences ->
             preferences[CLAVE] = value

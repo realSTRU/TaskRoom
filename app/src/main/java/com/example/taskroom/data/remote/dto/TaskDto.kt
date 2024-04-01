@@ -6,21 +6,21 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class TaskDto (
     @Json(name = "id")
-    var id : Int,
+    var id : Int = 0,
     @Json(name = "projectId")
-    var projectId : Int,
+    var projectId : Int = 0,
     @Json(name = "userId")
-    var userId : Int,
+    var userId : Int = 0,
     @Json(name = "title")
-    var title : String,
+    var title : String = "",
     @Json(name = "description")
-    var description : String,
+    var description : String = "",
     @Json(name = "status")
-    var status : String,
+    var status : String = "",
     @Json(name = "startDate")
-    var startDate : String,
+    var startDate : String = "",
     @Json(name = "endDate")
-    var endDate : String,
+    var endDate : String = "",
     @Json(name = "note")
-    var note : String
+    var note : String = ""
 )

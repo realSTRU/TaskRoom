@@ -6,11 +6,11 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ParticipantDto (
     @Json(name = "id")
-    var id : Int,
+    var id : Int = 0,
     @Json(name = "projectId")
-    var projectId : Int,
+    var projectId : Int = 0,
     @Json(name = "userId")
-    var userId : Int,
+    var userId : Int = 0,
     @Json(name ="roleId")
-    var roleId : Int
+    var roleId : Int = 0
 )

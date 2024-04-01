@@ -47,6 +47,18 @@ class ProjectRepository @Inject constructor(
             throw e
         }
     }
+    suspend fun addProject(project : ProjectDto) : ProjectDto?{
+        try{
+            return withContext(Dispatchers.IO)
+            {
+                val response = api.postProject(project)
+                response.body()
+            }
+        }catch (e: Exception)
+        {
+            throw e
+        }
+    }
     suspend fun addParticipant(projectId : Int , userId : Int, roleId : Int) : ProjectDto?{
         try{
             return withContext(Dispatchers.IO)

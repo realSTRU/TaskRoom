@@ -26,7 +26,7 @@ object AppModule{
             .add(KotlinJsonAdapterFactory())
             .build()
     }
-    val URL = "http://gdpwebapi.somee.com/"
+    val URL = "http://gdpwebapi.somee.com"
     @Provides
     @Singleton
     fun provideProjectApi(moshi : Moshi): projectApi{
