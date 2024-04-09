@@ -12,7 +12,7 @@ data class ProjectDto(
     @Json(name = "description")
     var description : String = "",
     @Json(name = "status")
-    var status : String = "",
+    var status : Int = 0,
     @Json(name = "startDate")
     var startDate : String = "",
     @Json(name = "endDate")
@@ -20,7 +20,7 @@ data class ProjectDto(
     @Json(name = "note")
     var note : String = "",
     @Json(name = "participants")
-    var participants : List<ParticipantDto> = listOf(),
+    var participants : MutableList<ParticipantDto> = mutableListOf(),
     @Json(name = "tasks")
-    var tasks : List<TaskDto> = listOf()
+    var tasks : MutableList<TaskDto> = mutableListOf()
 )

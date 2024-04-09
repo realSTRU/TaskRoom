@@ -13,7 +13,9 @@ import com.example.taskroom.data.repository.ProjectRepository
 import com.example.taskroom.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,18 +62,35 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun addProject():Boolean {
-        var incomplete by mutableStateOf(true)
+    fun addProject() {
         if (Validate()){
             viewModelScope.launch {
                 var date = LocalDateTime.now()
                 try {
-                    var project = projectRepository.addProject(ProjectDto(title=title, description = description, startDate = "${date.year}-${date.monthValue}-${date.dayOfMonth}", endDate = endDate, note = projectNote))
+                    var startDate = ""
+                    var dayOfMonth = date.dayOfMonth
+                    var month = date.monthValue
+                    var year= date.year
+                    if(month<10 && dayOfMonth<10){
+                        startDate="$year-0$month-0$dayOfMonth"
+                    }
+                    else if(month<10 && dayOfMonth>10){
+                        startDate="$year-0$month-$dayOfMonth"
+                    }
+                    else if(month>10 && dayOfMonth<10){
+                        startDate="$year-$month-0$dayOfMonth"
+                    }
+                    else if (month>10 && dayOfMonth>10){
+                        startDate="$year-$month-$dayOfMonth"
+                    }
+
+                    var projectToSend =ProjectDto(title=title, description = description, startDate= startDate , endDate = endDate, note = projectNote)
+                    var project = projectRepository.addProject(projectToSend)
                     project?.let {
                         userRepository.addProjetToAUser(userId = currentUser.id, projectId = project.id)
                         projectRepository.addParticipant(projectId = project.id, userId = currentUser.id, roleId = 0)
                         currentUser = userRepository.getUserById(currentUser.id)?: UserDto()
-                        incomplete=false
+                        modalNewProjectOpen = false
                     }
                 }
                 catch (e: Exception){
@@ -79,7 +98,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
-        return incomplete
 
     }
 

@@ -161,11 +161,13 @@ fun Homescreen(context:Context,nav: NavController,storage:SessionStorage,homeVie
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(20.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.Bottom) {
-        FloatingActionButton(
-            onClick = {  modalNewProjectOpen = !modalNewProjectOpen},
-            backgroundColor = Color(255,180,1)
-        ) {
-            Text("+", fontSize = 30.sp)
+        if (projectSlected){
+            FloatingActionButton(
+                onClick = {  modalNewProjectOpen = !modalNewProjectOpen },
+                backgroundColor = Color(255,180,1)
+            ) {
+                Text("+", fontSize = 30.sp)
+            }
         }
     }
 
@@ -321,7 +323,7 @@ fun NewProjectModal(context: Context,
                 DatePicker(context = context, homeViewModel = homeViewModel)
                 Spacer(modifier = Modifier.padding(top =10.dp))
                 Row (horizontalArrangement = Arrangement.Center){
-                    Button(onClick = { modalNewProjectOpen = homeViewModel.addProject() },
+                    Button(onClick = {  homeViewModel.addProject() },
                         modifier = Modifier
                             .fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(
@@ -357,11 +359,21 @@ fun DatePicker(
     day = calendar.get(Calendar.DAY_OF_MONTH)
     calendar.time = Date()
 
-
     val datePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-            homeViewModel.onEndDatechange( "$year-$month-$dayOfMonth")
+            if(month<10 && dayOfMonth<10){
+               homeViewModel.onEndDatechange( "$year-0$month-0$dayOfMonth")
+            }
+            else if(month<10 && dayOfMonth>10){
+                homeViewModel.onEndDatechange( "$year-0$month-$dayOfMonth")
+            }
+            else if(month>10 && dayOfMonth<10){
+                homeViewModel.onEndDatechange( "$year-$month-0$dayOfMonth")
+            }
+            else if (month>10 && dayOfMonth>10){
+                homeViewModel.onEndDatechange("$year-$month-$dayOfMonth")
+            }
         }, year, month, day
     )
     TextField(
