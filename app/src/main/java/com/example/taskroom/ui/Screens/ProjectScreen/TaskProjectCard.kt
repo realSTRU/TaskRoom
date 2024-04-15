@@ -25,6 +25,7 @@ import com.example.taskroom.data.remote.dto.TaskDto
 import com.example.taskroom.ui.Screens.HomeScreen.ConfirmationChangeStateTaskModal
 import com.example.taskroom.ui.Screens.HomeScreen.HomeViewModel
 import com.example.taskroom.ui.Screens.HomeScreen.modalConfirmation
+import com.example.taskroom.ui.Screens.HomeScreen.modalDeleteTaskOpen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -32,7 +33,9 @@ fun  TaskProjectCard(task: TaskDto, homeViewModel: HomeViewModel, username : Str
 {
     Card(
         modifier = Modifier
-            .combinedClickable(onClick = {}, onLongClick = { projectViewModel.deleteTask(task) })
+            .combinedClickable(
+                onClick = {},
+                onLongClick = { modalDeleteTaskOpen = !modalDeleteTaskOpen })
             .padding(10.dp)
     ) {
         Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -80,5 +83,9 @@ fun  TaskProjectCard(task: TaskDto, homeViewModel: HomeViewModel, username : Str
                 }
             }
         }
+    }
+    if (modalDeleteTaskOpen && projectViewModel.isAdmin())
+    {
+        DeleteTaskModal(projectViewModel = projectViewModel, task = task)
     }
 }

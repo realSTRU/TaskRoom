@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import com.example.taskroom.R
 import com.example.taskroom.currentUser
 import com.example.taskroom.data.localStorage.SessionStorage
+import com.example.taskroom.data.remote.dto.UserDto
 import com.example.taskroom.ui.Screens.HomeScreen.HomeViewModel
 import com.example.taskroom.ui.Screens.HomeScreen.ProfileViewModal
 import com.example.taskroom.ui.Screens.HomeScreen.modalAddParticipantOpen
@@ -155,28 +156,30 @@ fun ProjectScreen(context: Context, nav: NavController, storage: SessionStorage,
         if(modalNewProfileOpen){
             ProfileViewModal(storage,nav)
         }
-
-        //Botones de accion
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.Bottom) {
-            if (!tasksSelected){
-                FloatingActionButton(
-                    onClick = {  modalAddParticipantOpen = !modalAddParticipantOpen },
-                    backgroundColor = Color(255,180,1)
-                ) {
-                    Text("+", fontSize = 30.sp)
+        if (projectViewModel.isAdmin()) {
+            //Botones de accion
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.Bottom) {
+                if (!tasksSelected){
+                    FloatingActionButton(
+                        onClick = {  modalAddParticipantOpen = !modalAddParticipantOpen },
+                        backgroundColor = Color(255,180,1)
+                    ) {
+                        Text("+", fontSize = 30.sp)
+                    }
                 }
-            }
-            else{
-                FloatingActionButton(
-                    onClick = {  modalAddTaskOpen = !modalAddTaskOpen },
-                    backgroundColor = Color(255,180,1)
-                ) {
-                    Text("+", fontSize = 30.sp)
+                else{
+                    FloatingActionButton(
+                        onClick = {  modalAddTaskOpen = !modalAddTaskOpen },
+                        backgroundColor = Color(255,180,1)
+                    ) {
+                        Text("+", fontSize = 30.sp)
+                    }
                 }
             }
         }
+
 
         if (modalAddParticipantOpen){
             AddParticipantModal(context = context, projectViewModel = projectViewModel)

@@ -15,13 +15,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskroom.data.remote.dto.UserDto
+import com.example.taskroom.ui.Screens.HomeScreen.modalRemoveParticipantOpen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ParticipantCard(user: UserDto, role:Int, projectViewModel: ProjectViewModel){
     Card(
         modifier = Modifier
-            .combinedClickable(onClick = {}, onLongClick = { projectViewModel.removeParticipant() })
+            .combinedClickable(
+                onClick = {},
+                onLongClick = { modalRemoveParticipantOpen = !modalRemoveParticipantOpen })
             .padding(10.dp)
     ) {
         Row(
@@ -44,4 +47,9 @@ fun ParticipantCard(user: UserDto, role:Int, projectViewModel: ProjectViewModel)
             }
         }
     }
+    if (modalRemoveParticipantOpen && projectViewModel.isAdmin())
+    {
+        RemoveParticipantModal(projectViewModel = projectViewModel, user = user)
+    }
+
 }

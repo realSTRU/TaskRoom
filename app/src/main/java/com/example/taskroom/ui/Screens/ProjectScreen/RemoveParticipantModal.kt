@@ -16,18 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.taskroom.data.remote.api.projectApi
-import com.example.taskroom.data.remote.dto.ProjectDto
 import com.example.taskroom.data.remote.dto.TaskDto
-import com.example.taskroom.ui.Screens.HomeScreen.HomeViewModel
-import com.example.taskroom.ui.Screens.HomeScreen.modalDeleteProjectOpen
+import com.example.taskroom.data.remote.dto.UserDto
 import com.example.taskroom.ui.Screens.HomeScreen.modalDeleteTaskOpen
-
+import com.example.taskroom.ui.Screens.HomeScreen.modalRemoveParticipantOpen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DeleteTaskModal(projectViewModel: ProjectViewModel,
-                       task: TaskDto
+fun RemoveParticipantModal(projectViewModel: ProjectViewModel,
+                    user: UserDto
 ) {
     androidx.compose.material3.AlertDialog(
         onDismissRequest = {
@@ -35,14 +32,14 @@ fun DeleteTaskModal(projectViewModel: ProjectViewModel,
     ) {
         Card {
             Column(modifier = Modifier.padding(20.dp)) {
-                Text(text = "Do you want delete this task?")
+                Text(text = "Do you want remove this participant?")
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(20.dp), horizontalArrangement = Arrangement.Center
                 ) {
 
-                    TextButton(onClick = { modalDeleteTaskOpen = false })
+                    TextButton(onClick = { modalRemoveParticipantOpen = false })
                     {
                         Text(text = "NO", color = Color.Black)
                     }
@@ -50,9 +47,9 @@ fun DeleteTaskModal(projectViewModel: ProjectViewModel,
                     Spacer(modifier = Modifier.padding(end = 10.dp))
                     Button(
                         onClick = {
-                            projectViewModel.deleteTask(task.id)
+                            projectViewModel.removeParticipant(user.id)
 
-                            modalDeleteTaskOpen = false
+                            modalRemoveParticipantOpen = false
                         },
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(255, 180, 1)

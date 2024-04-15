@@ -78,8 +78,6 @@ class ProjectViewModel @Inject constructor(
         }
 
     }
-
-
     fun onTaskTitleChange(value : String){
         taskTitle=value
         taskTitleError = taskTitle.isBlank()
@@ -223,11 +221,40 @@ class ProjectViewModel @Inject constructor(
         onTaskTitleChange("")
         onTaskUserIdChange("")
     }
-    fun deleteTask(task: TaskDto){
+    fun deleteTask(id:Int){
+        if (isAdmin()) {
+           viewModelScope.launch {
+               var removedTask = taskRepository.deleteTask(id = id)
 
+               removedTask?.let {
+                   load()
+               }
+           }
+        }
     }
 
-    fun removeParticipant(){
+    fun isAdmin(): Boolean{
+        var valid = false
+        try {
+            var valid =(roleUserList.filter { o -> o.user.id == currentUser.id }[0]).role == 1
+            return valid
+        }
+        catch (e:Exception){
+            return false
+        }
+    }
+
+
+    fun removeParticipant(id:Int){
+        if (isAdmin())
+        {
+            viewModelScope.launch {
+                var removedParticipant = projectRepository.removeParticipant(projectId=currentProject.id, userId  = id)
+                removedParticipant?.let {
+                    load()
+                }
+            }
+        }
 
     }
 

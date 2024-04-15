@@ -48,6 +48,8 @@ var modalNewProjectOpen by mutableStateOf(false)
 var modalNewProfileOpen by mutableStateOf(false)
 var modalConfirmation by mutableStateOf(false)
 var modalDeleteProjectOpen by mutableStateOf(false)
+var modalDeleteTaskOpen by mutableStateOf(false)
+var modalRemoveParticipantOpen by mutableStateOf(false)
 var modalAddParticipantOpen by mutableStateOf(false)
 var modalAddTaskOpen by mutableStateOf(false)
 
