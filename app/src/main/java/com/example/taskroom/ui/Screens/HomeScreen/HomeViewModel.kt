@@ -38,7 +38,8 @@ class HomeViewModel @Inject constructor(
     var projectNoteError by mutableStateOf(false)
     var endDateError by mutableStateOf(false)
 
-
+    var projectList : MutableList<ProjectDto> = mutableListOf()
+    var taskList : MutableList<TaskDto> = mutableListOf()
     fun onTitlechange(value : String){
         title=value
         titleError = title.isBlank()
@@ -56,6 +57,7 @@ class HomeViewModel @Inject constructor(
         endDate=value
         endDateError = endDate.isBlank()
     }
+
 
     fun Validate(): Boolean{
         onEndDatechange(endDate)
@@ -82,14 +84,20 @@ class HomeViewModel @Inject constructor(
             userRepository.getUserById(currentUser.id)?.let {
                 currentUser = it
             }
+            if (currentUser.id!=0){
+                userRepository.getProjectByUser(currentUser.id)?.let {
+                    projectList = it
+                }
+                userRepository.getTaskByUser(currentUser.id)?.let{
+                    taskList = it
+                }
+            }
         }
     }
 
     fun deleteProject(project: ProjectDto){
-        currentUser.projects.remove(project)
         viewModelScope.launch {
             projectRepository.removeParticipant(projectId = project.id, userId = currentUser.id)
-            userRepository.removeProjectToAUser(projectId = project.id, userId = currentUser.id)
             load()
         }
     }
@@ -119,9 +127,7 @@ class HomeViewModel @Inject constructor(
                     var projectToSend =ProjectDto(title=title, description = description, startDate= startDate , endDate = endDate, note = projectNote)
                     var project = projectRepository.addProject(projectToSend)
                     project?.let {
-                        userRepository.addProjetToAUser(userId = currentUser.id, projectId = project.id)
-                        participantRepository.postParticipant(ParticipantDto(projectId = project.id, userId = currentUser.id, roleId = 1))
-                        projectRepository.addParticipant(projectId = project.id, userId = currentUser.id, roleId = 0)
+                        projectRepository.addParticipant(projectId = project.id, userId = currentUser.id, roleId = 1)
                         currentUser = userRepository.getUserById(currentUser.id)?: UserDto()
                         modalNewProjectOpen = false
                         load()
@@ -131,6 +137,7 @@ class HomeViewModel @Inject constructor(
                     throw e
                 }
             }
+
         }
 
     }

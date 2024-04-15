@@ -49,10 +49,11 @@ var modalNewProfileOpen by mutableStateOf(false)
 var modalConfirmation by mutableStateOf(false)
 var modalDeleteProjectOpen by mutableStateOf(false)
 var modalAddParticipantOpen by mutableStateOf(false)
+var modalAddTaskOpen by mutableStateOf(false)
 
 @Composable
 fun Homescreen(context:Context,nav: NavController,storage:SessionStorage,homeViewModel: HomeViewModel){
-    LaunchedEffect (key1 = true){
+    LaunchedEffect (currentUser){
         homeViewModel.load()
     }
 
@@ -120,14 +121,14 @@ fun Homescreen(context:Context,nav: NavController,storage:SessionStorage,homeVie
         
         if (projectSlected){
             LazyColumn {
-                items(currentUser.projects){ project ->
+                items(homeViewModel.projectList){ project ->
                     ProjectCard(project=project, percent = calcularPorciento(project) , homeViewModel=homeViewModel, nav=nav )
                 }
             }
         }
         else{
             LazyColumn {
-                items(currentUser.tasks) { task ->
+                items(homeViewModel.taskList) { task ->
                     TaskCard(project = task.title, task = task, homeViewModel=homeViewModel )
                 }
             }

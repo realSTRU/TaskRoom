@@ -43,6 +43,7 @@ import com.example.taskroom.data.localStorage.SessionStorage
 import com.example.taskroom.ui.Screens.HomeScreen.HomeViewModel
 import com.example.taskroom.ui.Screens.HomeScreen.ProfileViewModal
 import com.example.taskroom.ui.Screens.HomeScreen.modalAddParticipantOpen
+import com.example.taskroom.ui.Screens.HomeScreen.modalAddTaskOpen
 import com.example.taskroom.ui.Screens.HomeScreen.modalNewProfileOpen
 import com.example.taskroom.ui.Screens.HomeScreen.modalNewProjectOpen
 import com.example.taskroom.ui.util.AppScreens
@@ -159,9 +160,9 @@ fun ProjectScreen(context: Context, nav: NavController, storage: SessionStorage,
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(20.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.Bottom) {
-            if (tasksSelected){
+            if (!tasksSelected){
                 FloatingActionButton(
-                    onClick = {  modalNewProjectOpen = !modalNewProjectOpen },
+                    onClick = {  modalAddParticipantOpen = !modalAddParticipantOpen },
                     backgroundColor = Color(255,180,1)
                 ) {
                     Text("+", fontSize = 30.sp)
@@ -169,7 +170,7 @@ fun ProjectScreen(context: Context, nav: NavController, storage: SessionStorage,
             }
             else{
                 FloatingActionButton(
-                    onClick = {  modalAddParticipantOpen = !modalAddParticipantOpen },
+                    onClick = {  modalAddTaskOpen = !modalAddTaskOpen },
                     backgroundColor = Color(255,180,1)
                 ) {
                     Text("+", fontSize = 30.sp)
@@ -179,6 +180,9 @@ fun ProjectScreen(context: Context, nav: NavController, storage: SessionStorage,
 
         if (modalAddParticipantOpen){
             AddParticipantModal(context = context, projectViewModel = projectViewModel)
+        }
+        if (modalAddTaskOpen){
+            AddTaskModal(context = context, projectViewModel = projectViewModel)
         }
     }
 

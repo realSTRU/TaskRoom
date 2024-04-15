@@ -12,11 +12,10 @@ import retrofit2.http.Path
 interface taskApi{
     @GET("api/Task")
     suspend fun getTask() : Response<List<TaskDto>>
-    @POST
+    @POST("api/Task")
     suspend fun postTask(@Body task : TaskDto) : Response<TaskDto>
     @GET("api/Task/{taskId}")
     suspend fun getTaskById(@Path("taskId") taskId : Int) : Response<TaskDto>
-
     @DELETE("api/Task/{taskId}")
     suspend fun deleteTask(@Path("taskId") taskId: Int) : Response<TaskDto>
     @PUT("api/Task/update")

@@ -36,16 +36,6 @@ fun  TaskProjectCard(task: TaskDto, homeViewModel: HomeViewModel, username : Str
             .padding(10.dp)
     ) {
         Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
-            Checkbox(
-                checked = task.status == 2,
-                onCheckedChange = { modalConfirmation = true },
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxSize(),
-                colors = CheckboxDefaults.colors(
-                    checkedColor = Color(255, 180, 1)
-                )
-            )
 
             var color = Color.LightGray
             var text = ""
@@ -89,14 +79,6 @@ fun  TaskProjectCard(task: TaskDto, homeViewModel: HomeViewModel, username : Str
                     }
                 }
             }
-        }
-    }
-    if (modalConfirmation){
-        if (task.status!=2){
-            ConfirmationChangeStateTaskModal(homeViewModel = homeViewModel, task = task, state = 2)
-        }
-        else{
-            ConfirmationChangeStateTaskModal(homeViewModel = homeViewModel, task = task, state = 1)
         }
     }
 }

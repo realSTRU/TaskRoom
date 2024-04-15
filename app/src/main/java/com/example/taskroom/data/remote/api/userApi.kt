@@ -20,7 +20,7 @@ interface userApi {
     suspend fun deleteUser(@Path("userId")user: Int) : Response<UserDto>
     @GET("api/User")
     suspend fun getUsers() : Response<List<UserDto>>
-    @GET("api/User/{userId}/projects")
+    @GET("api/Project/userprojects/{userId}")
     suspend fun getProjectsByUser(@Path("userId")userId: Int) : Response<MutableList<ProjectDto>>
     @GET("api/User/{userId}/tasks")
     suspend fun getTasksByUser(@Path("userId")userId: Int) : Response<MutableList<TaskDto>>

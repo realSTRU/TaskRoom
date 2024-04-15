@@ -12,7 +12,7 @@ data class ProjectDto(
     @Json(name = "description")
     var description : String = "",
     @Json(name = "status")
-    var status : Int = 0,
+    var status : Int = 1,
     @Json(name = "startDate")
     var startDate : String = "",
     @Json(name = "endDate")
