@@ -128,11 +128,15 @@ dependencies {
     implementation ("io.coil-kt:coil-compose:2.0.0")
 
     //foundation
+    implementation ("androidx.compose.foundation:foundation:1.4.0-alpha05")
     implementation("androidx.compose.foundation:foundation:1.0.5")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
 
+    //gifs and more coil's things
+    implementation ("io.coil-kt:coil-compose:2.1.0")
+    implementation ("io.coil-kt:coil-gif:2.1.0")
 
 
 

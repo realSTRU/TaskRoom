@@ -21,9 +21,9 @@ interface userApi {
     @GET("api/User")
     suspend fun getUsers() : Response<List<UserDto>>
     @GET("api/User/{userId}/projects")
-    suspend fun getProjectsByUser(@Path("userId")userId: Int) : Response<List<ProjectDto>>
+    suspend fun getProjectsByUser(@Path("userId")userId: Int) : Response<MutableList<ProjectDto>>
     @GET("api/User/{userId}/tasks")
-    suspend fun getTasksByUser(@Path("userId")userId: Int) : Response<List<TaskDto>>
+    suspend fun getTasksByUser(@Path("userId")userId: Int) : Response<MutableList<TaskDto>>
     @PATCH("api/User/{userId}/addproject/{projectId}")
     suspend fun addProjectToAUser(@Path("userId")userId: Int, @Path("projectId")projectId : Int) : Response<ProjectDto>
     @PATCH("api/User/{userId}/removeproject/{projectId}")

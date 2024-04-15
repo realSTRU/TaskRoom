@@ -61,7 +61,7 @@ class UserRepository @Inject constructor(
         }
     }
 
-    suspend fun getProjectByUser(id : Int) : List<ProjectDto>?{
+    suspend fun getProjectByUser(id : Int) : MutableList<ProjectDto>?{
         try{
             return withContext(Dispatchers.IO)
             {
@@ -73,7 +73,7 @@ class UserRepository @Inject constructor(
             throw e
         }
     }
-    suspend fun getTaskByUser(id : Int) : List<TaskDto>?{
+    suspend fun getTaskByUser(id : Int) : MutableList<TaskDto>?{
         try{
             return withContext(Dispatchers.IO)
             {

@@ -1,19 +1,24 @@
 package com.example.taskroom.ui.util
 
+
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.taskroom.data.localStorage.SessionStorage
 import com.example.taskroom.ui.Screens.HomeScreen.HomeViewModel
 import com.example.taskroom.ui.Screens.HomeScreen.Homescreen
 import com.example.taskroom.ui.Screens.LoginScreen.LoginScreen
 import com.example.taskroom.ui.Screens.LoginScreen.LoginViewModel
 import com.example.taskroom.ui.Screens.LoginScreen.SigninViewModel
+import com.example.taskroom.ui.Screens.ProjectScreen.ProjectScreen
+import com.example.taskroom.ui.Screens.ProjectScreen.ProjectViewModel
 import com.example.taskroom.ui.Screens.SplashScreen.SplashScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -26,12 +31,11 @@ fun AppNavigation(
     context: Context,
     loginViewModel: LoginViewModel = hiltViewModel(),
     signinViewModel: SigninViewModel  = hiltViewModel(),
-    homeViewModel : HomeViewModel = hiltViewModel()
-
+    homeViewModel : HomeViewModel = hiltViewModel(),
+    projectViewModel: ProjectViewModel = hiltViewModel()
 )
 {
     val storage : SessionStorage = SessionStorage(context)
-
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -45,6 +49,21 @@ fun AppNavigation(
         }
         composable(AppScreens.LoginScreen.route) {
             LoginScreen(nav = navController, loginViewModel=loginViewModel, signinViewModel = signinViewModel,storage=storage)
+        }
+        composable("${AppScreens.ProjectScreen.route}/{projectId}",
+            arguments = listOf(navArgument("projectId") {
+                type = NavType.StringType
+            })
+        ) {
+            ProjectScreen(
+                context = context,
+                nav = navController,
+                storage = storage,
+                (it.arguments?.getString("projectId") ?: "").toInt(),
+                projectViewModel = projectViewModel,
+                homeViewModel = homeViewModel
+            )
+
         }
 
 

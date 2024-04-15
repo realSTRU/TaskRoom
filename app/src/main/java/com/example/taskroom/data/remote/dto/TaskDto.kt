@@ -16,7 +16,7 @@ data class TaskDto (
     @Json(name = "description")
     var description : String = "",
     @Json(name = "status")
-    var status : String = "",
+    var status : Int = 0,
     @Json(name = "startDate")
     var startDate : String = "",
     @Json(name = "endDate")

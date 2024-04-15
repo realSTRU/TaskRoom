@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface taskApi{
@@ -18,6 +19,6 @@ interface taskApi{
 
     @DELETE("api/Task/{taskId}")
     suspend fun deleteTask(@Path("taskId") taskId: Int) : Response<TaskDto>
-    @POST("api/Task/update")
+    @PUT("api/Task/update")
     suspend fun updateTask(@Body task : TaskDto) : Response<TaskDto>
 }
